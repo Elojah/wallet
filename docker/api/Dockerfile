@@ -9,4 +9,5 @@ RUN env GOARCH=386 GOOS=linux CGO_ENABLED=0 make api
 FROM alpine
 WORKDIR /app
 COPY --from=builder /api/bin/wallet_api .
+COPY --from=builder /api/config/api.json .
 ENTRYPOINT ["/app/wallet_api", "/app/api.json"]
