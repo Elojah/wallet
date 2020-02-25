@@ -14,8 +14,8 @@ const (
 	txKey = "tx:"
 )
 
-// Insert transaction redis implementation.
-func (s *Store) Insert(ctx context.Context, tx wallet.Tx) error {
+// InsertTx transaction redis implementation.
+func (s *Store) InsertTx(ctx context.Context, tx wallet.Tx) error {
 	raw, err := tx.Marshal()
 	if err != nil {
 		return errors.Wrapf(err, "insert transaction %s", tx.ID.String())
@@ -23,7 +23,7 @@ func (s *Store) Insert(ctx context.Context, tx wallet.Tx) error {
 	return errors.Wrapf(s.ZAddNX(
 		txKey+tx.WalletID.String(),
 		redis.Z{
-			Score:  float64(tx.Date.Unix()),
+			Score:  float64(tx.ID.Time()),
 			Member: raw,
 		},
 	).Err(), "insert transaction %s", tx.ID.String())
