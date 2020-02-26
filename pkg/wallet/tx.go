@@ -14,6 +14,12 @@ type TxFilter struct {
 	EndDate   time.Time
 }
 
+// TxApp applicatino layer for Tx.
+type TxApp interface {
+	TxStore
+	CreateTx(context.Context, Tx) error
+}
+
 // TxStore storage layer for Tx object.
 type TxStore interface {
 	InsertTx(context.Context, Tx) error

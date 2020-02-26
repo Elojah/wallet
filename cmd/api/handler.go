@@ -4,18 +4,21 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/elojah/wallet/pkg/wallet"
 	"github.com/rs/zerolog/log"
 )
 
 type handler struct {
 	srv *http.Server
+
+	Tx wallet.TxApp
 }
 
 // Dial starts the auth server.
 func (h *handler) Dial(c Config) error {
 	mux := http.NewServeMux()
 
-	// mux.HandleFunc("/signin", h.signin)
+	mux.HandleFunc("/transaction", h.PostTx)
 
 	h.srv = &http.Server{
 		Addr:    c.Address,
