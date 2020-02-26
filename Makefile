@@ -35,7 +35,6 @@ api:  ## Build api binary
 .PHONY: proto
 proto: ## Generate .proto files
 	$(info $(M) running protobuf…) @
-	$Q cd pkg/wallet && protoc -I=. -I=$(GOPATH)/src --gogoslick_out=. money.proto
 	$Q cd pkg/wallet && protoc -I=. -I=$(GOPATH)/src --gogoslick_out=. tx.proto
 	$Q cd pkg/wallet && protoc -I=. -I=$(GOPATH)/src --gogoslick_out=Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:. wallet.proto
 

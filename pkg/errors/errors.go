@@ -24,3 +24,13 @@ type ErrNotFound struct {
 func (err ErrNotFound) Error() string {
 	return fmt.Sprintf("no results found in store %s for index %s", err.Store, err.Index)
 }
+
+// ErrInvalidField is raised when a param is invalid.
+type ErrInvalidField struct {
+	Field string
+	Value string
+}
+
+func (err ErrInvalidField) Error() string {
+	return fmt.Sprintf("invalid field %s (%s)", err.Field, err.Value)
+}

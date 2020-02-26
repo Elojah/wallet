@@ -9,11 +9,9 @@ option (gogoproto.populate_all) = true;
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
-import "money.proto";
-
 message W {
 	bytes ID                       = 1 [(gogoproto.customtype)  = "github.com/elojah/wallet/pkg/ulid.ID", (gogoproto.nullable) = false];
 	google.protobuf.Timestamp Date = 2 [(gogoproto.nullable) = false];
 
-	Money Amount                   = 3 [(gogoproto.nullable) = false];
+	string Amount                  = 3;
 }

@@ -7,11 +7,10 @@ option (gogoproto.benchgen_all) = true;
 option (gogoproto.populate_all) = true;
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
-import "money.proto";
 
 message Tx {
 	bytes ID                   = 1 [(gogoproto.customtype)  = "github.com/elojah/wallet/pkg/ulid.ID", (gogoproto.nullable) = false];
 	bytes WalletID             = 2 [(gogoproto.customtype)  = "github.com/elojah/wallet/pkg/ulid.ID", (gogoproto.nullable) = false];
 
-	Money Sum                  = 3 [(gogoproto.nullable) = false];
+	string Sum                 = 3;
 }

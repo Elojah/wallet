@@ -11,6 +11,9 @@ import (
 
 	"github.com/elojah/redis"
 	"github.com/elojah/services"
+
+	walletapp "github.com/elojah/wallet/pkg/wallet/app"
+	walletstore "github.com/elojah/wallet/pkg/wallet/store"
 )
 
 // run services.
@@ -36,9 +39,19 @@ func run(prog string, filename string) {
 	launchers.Add(rdlrul)
 
 	// Stores and applicatives
+	walletStore := walletstore.NewStore(rdlru)
+	// walletApp := &walletapp.App{}
+
+	txStore := walletstore.NewStore(rd)
+	txApp := &walletapp.TxApp{
+		Store:   walletStore,
+		TxStore: txStore,
+	}
 
 	// handler (https server)
-	h := &handler{}
+	h := &handler{
+		Tx: txApp,
+	}
 
 	hl := h.NewLauncher(Namespaces{
 		API: "api",
