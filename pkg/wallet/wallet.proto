@@ -7,11 +7,10 @@ option (gogoproto.benchgen_all) = true;
 option (gogoproto.populate_all) = true;
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
-import "google/protobuf/timestamp.proto";
 
 message W {
 	bytes ID                       = 1 [(gogoproto.customtype)  = "github.com/elojah/wallet/pkg/ulid.ID", (gogoproto.nullable) = false];
-	google.protobuf.Timestamp Date = 2 [(gogoproto.nullable) = false];
+	int64 Timestamp                = 2;
 
 	string Amount                  = 3;
 }

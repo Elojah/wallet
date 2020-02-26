@@ -11,7 +11,8 @@ import (
 type handler struct {
 	srv *http.Server
 
-	Tx wallet.TxApp
+	Wallet wallet.App
+	Tx     wallet.TxApp
 }
 
 // Dial starts the auth server.
@@ -19,6 +20,7 @@ func (h *handler) Dial(c Config) error {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/transaction", h.PostTx)
+	mux.HandleFunc("/wallet", h.PostWallet)
 
 	h.srv = &http.Server{
 		Addr:    c.Address,

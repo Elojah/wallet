@@ -23,5 +23,7 @@ func (req PostTxReq) Check() error {
 	if _, err := decimal.NewFromString(req.Sum); err != nil {
 		return errors.ErrInvalidField{Field: "sum", Value: req.Sum}
 	}
+	// # No check on date
+	// # TODO it may be smart to disabled transactions too far in the past to avoid overomputation
 	return nil
 }

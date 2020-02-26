@@ -16,8 +16,9 @@ type Filter struct {
 
 // App application layer for W object.
 type App interface {
+	Store
 	// Fetch recompute all Tx data from latest computed wallet
-	Fetch(context.Context, Filter) (W, error)
+	ComputeAndFetch(context.Context, Filter) (W, error)
 }
 
 // Store storage layer for W object.

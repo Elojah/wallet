@@ -10,4 +10,6 @@ FROM alpine
 WORKDIR /app
 COPY --from=builder /api/bin/wallet_api .
 COPY --from=builder /api/config/api.json .
+COPY --from=builder /api/config/server.crt .
+COPY --from=builder /api/config/server.key .
 ENTRYPOINT ["/app/wallet_api", "/app/api.json"]

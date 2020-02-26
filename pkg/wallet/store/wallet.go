@@ -24,7 +24,7 @@ func (s *Store) Insert(ctx context.Context, w wallet.W) error {
 	return errors.Wrapf(s.ZAddNX(
 		walletKey+w.ID.String(),
 		redis.Z{
-			Score:  float64(w.Date.GetSeconds()),
+			Score:  float64(w.Timestamp),
 			Member: raw,
 		},
 	).Err(), "insert wallet %s", w.ID.String())
