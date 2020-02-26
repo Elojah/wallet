@@ -8,6 +8,7 @@ import (
 	"github.com/elojah/wallet/pkg/ulid"
 	"github.com/elojah/wallet/pkg/wallet"
 	"github.com/elojah/wallet/pkg/wallet/dto"
+	oulid "github.com/oklog/ulid"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -39,7 +40,7 @@ func (h handler) PostTx(w http.ResponseWriter, r *http.Request) {
 
 	// #Create transaction
 	if err := h.Tx.CreateTx(ctx, wallet.Tx{
-		ID:       ulid.NewTimeID(uint64(payload.Date.Unix())),
+		ID:       ulid.NewTimeID(oulid.Timestamp(payload.Date)),
 		WalletID: ulid.MustParse(payload.WalletID),
 		Sum:      payload.Sum,
 	}); err != nil {
