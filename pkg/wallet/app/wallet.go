@@ -12,6 +12,6 @@ type App struct {
 }
 
 // ComputeAndFetch logic implementation.
-func (a App) ComputeAndFetch(context.Context, wallet.Filter) (wallet.W, error) {
-	return wallet.W{}, nil
+func (a App) ComputeAndFetch(context.Context, wallet.Filter) ([]wallet.W, error) {
+	return []wallet.W{}, nil
 }

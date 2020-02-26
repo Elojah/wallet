@@ -60,7 +60,7 @@ func (s *Store) Fetch(ctx context.Context, filter wallet.Filter) (wallet.W, erro
 func (s *Store) Remove(ctx context.Context, filter wallet.Filter) error {
 	return errors.Wrapf(s.ZRemRangeByScore(
 		walletKey+filter.ID.String(),
-		strconv.FormatInt(filter.StartRange.Unix(), 10),
+		strconv.FormatInt(filter.StartDate.Unix(), 10),
 		"+inf",
-	).Err(), "remove wallet %s from TS %d", filter.ID.String(), filter.StartRange.Unix())
+	).Err(), "remove wallet %s from TS %d", filter.ID.String(), filter.StartDate.Unix())
 }

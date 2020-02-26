@@ -21,6 +21,7 @@ func (h *handler) Dial(c Config) error {
 
 	mux.HandleFunc("/transaction", h.PostTx)
 	mux.HandleFunc("/wallet", h.PostWallet)
+	mux.HandleFunc("/wallet-history", h.PostWalletHistory)
 
 	h.srv = &http.Server{
 		Addr:    c.Address,

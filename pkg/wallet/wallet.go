@@ -11,14 +11,15 @@ import (
 type Filter struct {
 	ID             ulid.ID
 	LastBeforeDate time.Time
-	StartRange     time.Time
+	StartDate      time.Time
+	EndDate        time.Time
 }
 
 // App application layer for W object.
 type App interface {
 	Store
 	// Fetch recompute all Tx data from latest computed wallet
-	ComputeAndFetch(context.Context, Filter) (W, error)
+	ComputeAndFetch(context.Context, Filter) ([]W, error)
 }
 
 // Store storage layer for W object.
