@@ -7,9 +7,11 @@ import (
 )
 
 // App wallet logic implementation.
-type App struct{}
+type App struct {
+	wallet.Store
+}
 
-// Fetch logic implementation.
-func (a App) Fetch(context.Context, wallet.Filter) (wallet.W, error) {
+// ComputeAndFetch logic implementation.
+func (a App) ComputeAndFetch(context.Context, wallet.Filter) (wallet.W, error) {
 	return wallet.W{}, nil
 }

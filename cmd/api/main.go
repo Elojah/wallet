@@ -40,7 +40,9 @@ func run(prog string, filename string) {
 
 	// Stores and applicatives
 	walletStore := walletstore.NewStore(rdlru)
-	// walletApp := &walletapp.App{}
+	walletApp := &walletapp.App{
+		Store: walletStore,
+	}
 
 	txStore := walletstore.NewStore(rd)
 	txApp := &walletapp.TxApp{
@@ -50,7 +52,8 @@ func run(prog string, filename string) {
 
 	// handler (https server)
 	h := &handler{
-		Tx: txApp,
+		Wallet: walletApp,
+		Tx:     txApp,
 	}
 
 	hl := h.NewLauncher(Namespaces{
