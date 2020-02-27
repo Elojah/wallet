@@ -53,3 +53,10 @@ curl -k -X POST 'https://0.0.0.0:8080/wallet-history' -d '{
 ```
 A basic `sh` test file is provided in `scripts/create_tx.sh`.
 MANUAL ACTION IS REQUIRED to follow your wallet id.
+
+### TODO
+
+- Add persistence (at least for transactions)
+- Add unit test
+- Add integration binary tests
+- Add some documentation on logic
