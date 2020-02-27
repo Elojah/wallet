@@ -49,11 +49,12 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 		// Run transactions in time order
 		var j int
 		var tx wallet.Tx
-
 		for j, tx = range txs {
 
 			// exit condition, next transactions will be sum for next wallet result
 			if int64(tx.ID.Timestamp()) > r.Timestamp {
+				// Here is a trick to not remove this transaction of txs slice
+				j--
 				break
 			}
 
@@ -66,7 +67,9 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 		}
 
 		// Remove transactions already added
-		txs = txs[j:]
+		if j < len(txs) {
+			txs = txs[j+1:]
+		}
 		result[i].Amount = current.String()
 
 		// TODO Insert wallet to recompute once

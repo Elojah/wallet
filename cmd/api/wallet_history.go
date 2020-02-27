@@ -51,10 +51,13 @@ func (h handler) PostWalletHistory(w http.ResponseWriter, r *http.Request) {
 	resp := dto.PostHistoryResp{
 		History: make([]dto.Wallet, 0, len(ws)),
 	}
+	// force UTC location display in response
+	// it's ok to ignore error here, UTC is valid
+	loc, _ := time.LoadLocation("UTC")
 	for _, w := range ws {
 		resp.History = append(resp.History, dto.Wallet{
 			Amount: w.Amount,
-			Date:   time.Unix(w.Timestamp, 0),
+			Date:   time.Unix(w.Timestamp, 0).In(loc),
 		})
 	}
 
