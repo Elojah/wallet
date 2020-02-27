@@ -31,6 +31,13 @@ api:  ## Build api binary
 		-o ../../bin/$(PACKAGE)_$(API)_$(VERSION)
 	$Q cp bin/$(PACKAGE)_$(API)_$(VERSION) bin/$(PACKAGE)_$(API)
 
+# Utils
+.PHONY: proto
+proto: ## Generate .proto files
+	$(info $(M) running protobuf…) @
+	$Q cd pkg/wallet && protoc -I=. -I=$(GOPATH)/src --gogoslick_out=. tx.proto
+	$Q cd pkg/wallet && protoc -I=. -I=$(GOPATH)/src --gogoslick_out=. wallet.proto
+
 # Vendoring
 .PHONY: vendor
 vendor: ## Write dependencies into vendor
