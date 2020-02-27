@@ -55,5 +55,7 @@ func (h handler) PostTx(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// TODO invalidate wallets future to this transaction
+
 	w.WriteHeader(http.StatusOK)
 }

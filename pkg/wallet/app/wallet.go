@@ -40,7 +40,10 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 	result := wallet.GenerateHourRange(filter.StartDate, filter.EndDate)
 
 	// For each result wallet
-	amount := w.Amount
+	current, err := decimal.NewFromString(w.Amount)
+	if err != nil {
+		return nil, err
+	}
 	for i, r := range result {
 
 		// Run transactions in time order
@@ -55,23 +58,18 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 			}
 
 			// boiler, parse decimal string to correctly sum them
-			current, err := decimal.NewFromString(w.Amount)
-			if err != nil {
-				return nil, err
-			}
 			sum, err := decimal.NewFromString(tx.Sum)
 			if err != nil {
 				return nil, err
 			}
 			current = current.Add(sum)
-
-			// affect new current
-			amount = current.String()
 		}
 
 		// Remove transactions already added
 		txs = txs[j:]
-		result[i].Amount = amount
+		result[i].Amount = current.String()
+
+		// TODO Insert wallet to recompute once
 	}
 
 	return result, nil
