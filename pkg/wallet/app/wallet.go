@@ -72,7 +72,11 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 		}
 		result[i].Amount = current.String()
 
-		// TODO Insert wallet to recompute once
+		// Insert wallet to keep computation result for future queries
+		result[i].ID = w.ID
+		if err := a.Insert(ctx, result[i]); err != nil {
+			return nil, err
+		}
 	}
 
 	return result, nil

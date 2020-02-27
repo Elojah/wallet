@@ -21,6 +21,13 @@ curl -k -X POST 'https://0.0.0.0:8080/transaction' -d '{
 # Fetch wallet history
 curl -k -X POST 'https://0.0.0.0:8080/wallet-history' -d '{
 	"wallet_id": "01E23TVYKC49YZD0BZK929KBKZ",
-	"start_date": "2020-04-01T23:00:00.000Z",
-	"end_date": "2020-04-02T08:00:00.000Z"
+	"start_date": "2020-04-02T23:00:00.000Z",
+	"end_date": "2020-04-03T08:00:00.000Z"
+}'
+
+# Add transaction in past
+curl -k -X POST 'https://0.0.0.0:8080/transaction' -d '{
+	"wallet_id": "01E23TVYKC49YZD0BZK929KBKZ",
+	"date": "2020-03-02T03:34:00.000Z",
+	"sum": "13.067"
 }'

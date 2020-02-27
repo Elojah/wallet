@@ -38,10 +38,11 @@ func (h handler) PostTx(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	id := ulid.MustParse(payload.WalletID)
 	// #Create transaction
 	if err := h.Tx.CreateTx(ctx, wallet.Tx{
 		ID:       ulid.NewTimeID(oulid.Timestamp(payload.Date)),
-		WalletID: ulid.MustParse(payload.WalletID),
+		WalletID: id,
 		Sum:      payload.Sum,
 	}); err != nil {
 		switch errors.Cause(err).(type) {
@@ -55,7 +56,15 @@ func (h handler) PostTx(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// TODO invalidate wallets future to this transaction
+	// #Remove all wallets future to this transaction
+	if err := h.Wallet.Remove(ctx, wallet.Filter{
+		ID:        id,
+		StartDate: payload.Date,
+	}); err != nil {
+		logger.Error().Err(err).Msg("failed to remove future wallets")
+		http.Error(w, "failed to remove future wallets", http.StatusInternalServerError)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 }
