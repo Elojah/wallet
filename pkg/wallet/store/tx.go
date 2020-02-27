@@ -23,7 +23,7 @@ func (s *Store) InsertTx(ctx context.Context, tx wallet.Tx) error {
 	return errors.Wrapf(s.ZAddNX(
 		txKey+tx.WalletID.String(),
 		redis.Z{
-			Score:  float64(tx.ID.Time()),
+			Score:  float64(tx.ID.Timestamp()),
 			Member: raw,
 		},
 	).Err(), "insert transaction %s", tx.ID.String())
@@ -31,7 +31,7 @@ func (s *Store) InsertTx(ctx context.Context, tx wallet.Tx) error {
 
 // FetchManyTx transaction redis implementation.
 func (s *Store) FetchManyTx(ctx context.Context, filter wallet.TxFilter) ([]wallet.Tx, error) {
-	vals, err := s.ZRevRangeByScore(
+	vals, err := s.ZRangeByScore(
 		txKey+filter.WalletID.String(),
 		redis.ZRangeBy{
 			Min: strconv.FormatInt(filter.StartDate.Unix(), 10),

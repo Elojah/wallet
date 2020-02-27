@@ -29,6 +29,7 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 
 	// #Fetch all transactions between last computed wallet and end date
 	txs, err := a.FetchManyTx(ctx, wallet.TxFilter{
+		WalletID:  filter.ID,
 		StartDate: time.Unix(w.Timestamp, 0),
 		EndDate:   filter.EndDate,
 	})
@@ -49,7 +50,7 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 		for j, tx = range txs {
 
 			// exit condition, next transactions will be sum for next wallet result
-			if int64(tx.ID.Time()) > r.Timestamp {
+			if int64(tx.ID.Timestamp()) > r.Timestamp {
 				break
 			}
 
@@ -58,7 +59,7 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 			if err != nil {
 				return nil, err
 			}
-			sum, err := decimal.NewFromString(w.Amount)
+			sum, err := decimal.NewFromString(tx.Sum)
 			if err != nil {
 				return nil, err
 			}

@@ -47,6 +47,11 @@ func (id ID) Time() uint64 {
 	return ulid.ULID(id).Time()
 }
 
+// Timestamp returns seconds time of ID.
+func (id ID) Timestamp() uint64 {
+	return ulid.ULID(id).Time() / 1000
+}
+
 // IsZero returns if id is zero.
 func (id ID) IsZero() bool {
 	return id.Time() == 0
