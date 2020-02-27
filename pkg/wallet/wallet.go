@@ -28,3 +28,32 @@ type Store interface {
 	Fetch(context.Context, Filter) (W, error)
 	Remove(context.Context, Filter) error
 }
+
+// GenerateHourRange generates a slice of wallets at hours end (e.g: 10:00, 22:00) from a date range
+// !!! Amounts are always empty and need to be populated.
+func GenerateHourRange(start time.Time, end time.Time) []W {
+
+	var result []W
+
+	// First we generate first rounded hour equal or superior to start
+	var ts int64
+	if start.Minute() == 0 {
+		ts = start.Unix()
+	} else {
+		ts = start.Add(time.Duration(60-start.Minute()) * time.Minute).Unix()
+	}
+
+	// While we didn't reach end date
+	for {
+		// exit condition
+		if ts > end.Unix() {
+			return result
+		}
+
+		// append current result timestamp
+		result = append(result, W{Timestamp: ts})
+
+		// add 1 hours (3600sec) to timestamp
+		ts += 3600
+	}
+}

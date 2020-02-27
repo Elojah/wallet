@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/shopspring/decimal"
+
 	"github.com/elojah/wallet/pkg/wallet"
 )
 
@@ -34,13 +36,42 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 		return nil, err
 	}
 
-	var result []wallet.W
-	for _, tx := range txs {
-		if time.Unix(tx.Timestamp, 0).After(filter.StartDate) {
-			result = append(result, w)
+	result := wallet.GenerateHourRange(filter.StartDate, filter.EndDate)
+
+	// For each result wallet
+	for i, r := range result {
+
+		// Run transactions in time order
+		var j int
+		var tx wallet.Tx
+		var amount string
+
+		for j, tx = range txs {
+
+			// exit condition, next transactions will be sum for next wallet result
+			if int64(tx.ID.Time()) > r.Timestamp {
+				break
+			}
+
+			// boiler, parse decimal string to correctly sum them
+			current, err := decimal.NewFromString(w.Amount)
+			if err != nil {
+				return nil, err
+			}
+			sum, err := decimal.NewFromString(w.Amount)
+			if err != nil {
+				return nil, err
+			}
+			current = current.Add(sum)
+
+			// affect new current
+			amount = current.String()
 		}
 
+		// Remove transactions already added
+		txs = txs[j:]
+		result[i].Amount = amount
 	}
 
-	return []wallet.W{}, nil
+	return result, nil
 }
