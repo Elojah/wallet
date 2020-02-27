@@ -40,11 +40,12 @@ func run(prog string, filename string) {
 
 	// Stores and applicatives
 	walletStore := walletstore.NewStore(rdlru)
-	walletApp := &walletapp.App{
-		Store: walletStore,
-	}
-
 	txStore := walletstore.NewStore(rd)
+
+	walletApp := &walletapp.App{
+		Store:   walletStore,
+		TxStore: txStore,
+	}
 	txApp := &walletapp.TxApp{
 		Store:   walletStore,
 		TxStore: txStore,

@@ -39,12 +39,12 @@ func (a App) ComputeAndFetch(ctx context.Context, filter wallet.Filter) ([]walle
 	result := wallet.GenerateHourRange(filter.StartDate, filter.EndDate)
 
 	// For each result wallet
+	amount := w.Amount
 	for i, r := range result {
 
 		// Run transactions in time order
 		var j int
 		var tx wallet.Tx
-		var amount string
 
 		for j, tx = range txs {
 
