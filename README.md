@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/github.com/elojah/wallet.svg?style=svg&circle-token=53f826c3f3cd02c2e3c5503c53618a9e1d34a6f0)](https://app.circleci.com/github/Elojah/wallet/pipelines)
+[![CircleCI](https://circleci.com/gh/Elojah/wallet/tree/master.svg?style=svg&circle-token=53f826c3f3cd02c2e3c5503c53618a9e1d34a6f0)](https://app.circleci.com/github/Elojah/wallet/pipelines)
 
 
 # wallet
